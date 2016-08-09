@@ -1,5 +1,4 @@
-!-- .slide: data-background="#6B205E" -->
-<center><div style="width: 75%; height: auto;"><img src="img/xebia.svg"/></div></center>
+<center><div style="width: 80%; height: auto;"><img src="img/xebia.svg"/></div></center>
 
 !SLIDE
 ### Docker Swarm - A complete Docker Container Platform
@@ -83,7 +82,7 @@ Creating application specific networks.
 
 
 !SLIDE
-### outlook
+### Outlook
 - Exploring paas-monitor locally
 - Exploring shellinabox locally
 - Vagrant setup
@@ -91,6 +90,7 @@ Creating application specific networks.
 - Create the overlay network
 - Deploying services
 - Scaling services
+- Rolling updates
 - Service Discovery
 - High Availability
 
@@ -158,7 +158,7 @@ https://github.com/xebia/workshop-docker-swarm.git in the directory 'development
 
 !SLIDE
 ### Initialize the swarm 
-<p style="font-size: 75%">
+<p style="font-size: 80%">
 The 'docker swarm init' allows you to initialize a cluster and create your first manager.
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
@@ -172,7 +172,7 @@ Login to node-01, initialize your swarm and start node-01 as a swarm manager.
 
 !SLIDE
 ### Add the swarm workers
-<p style="font-size: 75%">
+<p style="font-size: 80%">
 The 'docker swarm join' command allows you to add workers to the swarm. The 'docker node' command allows you view all nodes in the Swarm.
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
@@ -190,7 +190,7 @@ Add node-02 through node-04 as workers to your Swarm. When you are done, list th
 !SLIDE
 ### Create an overlay network
 
-<p style="font-size: 75%">
+<p style="font-size: 80%">
 The 'docker network create' command allows you to create an overlay network for your application which spans the machines in the swarm.
 </p><hr/>
 <p style="font-size: 80%">
@@ -205,7 +205,7 @@ create an overlay network named 'network1'.  When you are done, list all the ava
 
 !SLIDE
 ### Create the paas-monitor service
-<p style="font-size: 75%">
+<p style="font-size: 80%">
 The 'docker service create' command allows you to create services that are deployed on the Swarm.  'docker service ps' shows 
 all running instances.
 
@@ -226,8 +226,8 @@ one which node is the paas-monitor running?
 
 !SLIDE
 ### Scaling the paas-monitor 
-<p style="font-size: 75%">
-The 'docker scale ' allows you to scale the number of services that are deployed on the Swarm.  
+<p style="font-size: 80%">
+The 'docker service scale' allows you to scale the number of services that are deployed on the Swarm.  
 
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
@@ -239,13 +239,31 @@ one which nodes is the paas-monitor running now?
 
 
 !NOTE
-- vagrant ssh node-01 -- docker service create --name paas-monitor --env RELEASE=v1 --replicas 1 --network network1 -p :80:1337/tcp  mvanholsteijn/paas-monitor:latest
+- vagrant ssh node-01 -- docker service scale paas-monitor=3
 - open http://172.17.8.101
 - vagrant ssh node-01 -- docker service ps paas-monitor
 
+
+!SLIDE
+### Rolling updates
+<p style="font-size: 80%">
+The 'docker service update' allows you to update the service definition which will be deployed in a rolling fashion.
+
+</p><hr/><p style="font-size: 80%">
+** Assignment: **
+open your browser on http://172.17.8.101 and change the environment variable RELEASE to v2. What is happening?
+
+<img size="50%" src="img/swarm-paas-monitor-updated.png" style="border: none; background: none; box-shadow: none;"/>
+</p>
+
+
+!NOTE
+- open http://172.17.8.101
+- vagrant ssh node-01 -- docker service update --env-add RELEASE=v2 paas-monitor
+
 !SLIDE
 ### Service Discovery
-<p style="font-size: 75%">
+<p style="font-size: 80%">
 Swarm creates a virtual IP address for every deployed service so that the service can be reached independent of their physical location.
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
@@ -265,7 +283,7 @@ port 4200 as port 4200. Login on http://172.17.8.101:4200. What is the ip addres
 
 !SLIDE
 ### High Availability
-<p style="font-size: 75%">
+<p style="font-size: 80%">
 Swarm maintains the number of specified replicas of the application in the swarm. 
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
@@ -281,5 +299,5 @@ Stop one of the paas-monitor instances. What do you see happen?
 - curl http://172.17.8.101/stop
 - vagrant ssh node-01 -- docker service ps paas-monitor
 
-!-- .slide: data-background="#6B205E" -->
-<center><div style="width: 75%; height: auto;"><img src="img/xebia.svg"/></div></center>
+!SLIDE
+<center><div style="width: 80%; height: auto;"><img src="img/xebia.svg"/></div></center>
