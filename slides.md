@@ -76,7 +76,7 @@ Creating application specific networks.
 
 **Prerequisites**
 - Docker experience
-- Vagrant 1.6.0 or Higher
+- Vagrant 1.8.5 or Higher
 - VirtualBox 5.0 or Higher
 - 4-8 Gb memory free
 
