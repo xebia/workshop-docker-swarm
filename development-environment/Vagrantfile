@@ -9,7 +9,7 @@ CONFIG = File.join(File.dirname(__FILE__), "config.rb")
 
 # Defaults for config options defined in CONFIG
 $num_instances = 3
-$instance_name_prefix = "core"
+$instance_name_prefix = "node"
 $enable_serial_logging = false
 $share_home = false
 $vm_gui = false
