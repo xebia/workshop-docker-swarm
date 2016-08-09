@@ -1,4 +1,4 @@
-<!-- .slide: data-background="#6B205E" -->
+!-- .slide: data-background="#6B205E" -->
 <center><div style="width: 75%; height: auto;"><img src="img/xebia.svg"/></div></center>
 
 !SLIDE
@@ -178,7 +178,7 @@ The 'docker swarm join' command allows you to add workers to the swarm. The 'doc
 ** Assignment: **
 Add node-02 through node-04 as workers to your Swarm. When you are done, list the nodes in the swarm.
 
-<img src="img/swarm-complete.png" style="border: none; background: none; box-shadow: none;"/>
+<img src="img/swarm-workers.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
 
 !NOTE
@@ -215,7 +215,7 @@ Create the service paas-monitor for the docker application mvanholsteijn/paas-mo
 port 1337 as port 80. Start with 1 instance. Open the browser on http://172.17.8.101. 
 one which node is the paas-monitor running? 
 
-<img size="50%" src="img/swarm-single.png" style="border: none; background: none; box-shadow: none;"/>
+<img size="50%" src="img/swarm-single-paas-monitor.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
 
 
@@ -234,7 +234,7 @@ The 'docker scale ' allows you to scale the number of services that are deployed
 open your browser on http://172.17.8.101 and scale the paas-monitor to 3 instances. What is happening?
 one which nodes is the paas-monitor running now? 
 
-<img size="50%" src="img/swarm-scaled.png" style="border: none; background: none; box-shadow: none;"/>
+<img size="50%" src="img/swarm-paas-monitor-scaled.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
 
 
@@ -252,7 +252,7 @@ Swarm creates a virtual IP address for every deployed service so that the servic
 Create the service shellinabox for the docker application mvanholsteijn/shellinabox:latest on the network 'network1'. Expose
 port 4200 as port 4200. Login on http://172.17.8.101:4200. What is the ip address of the paas-monitor service? And for the shellinabox?
 
-<img size="50%" src="img/swarm-complete.png" style="border: none; background: none; box-shadow: none;"/>
+<img size="50%" src="img/hands-on-setup.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
 
 
@@ -271,7 +271,7 @@ Swarm maintains the number of specified replicas of the application in the swarm
 ** Assignment: **
 Stop one of the paas-monitor instances. What do you see happen? 
 
-<img size="50%" src="img/instance-failure.png" style="border: none; background: none; box-shadow: none;"/>
+<img size="50%" src="img/swarm-high-availability.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
 
 
@@ -280,3 +280,6 @@ Stop one of the paas-monitor instances. What do you see happen?
 - vagrant ssh node-01 -- docker service ps paas-monitor
 - curl http://172.17.8.101/stop
 - vagrant ssh node-01 -- docker service ps paas-monitor
+
+!-- .slide: data-background="#6B205E" -->
+<center><div style="width: 75%; height: auto;"><img src="img/xebia.svg"/></div></center>
