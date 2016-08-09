@@ -6,7 +6,7 @@
 <p><img src="img/docker-logo-no-text.png" style="border: none; background: none; box-shadow: none;"/></p>
 </center>
     **Mark van Holsteijn** - <a href="mailto:mvanholsteijn@xebia.com">mvanholsteijn@xebia.com</a><br/>
-    **Slides** - [http://xebia.github.io/workshop-docker-swarm](http://xebia.github.io/workshop-docker-swarm)
+    **Slides** - [https://xebia.github.io/workshop-docker-swarm](https://xebia.github.io/workshop-docker-swarm)
 </center>
 
 
