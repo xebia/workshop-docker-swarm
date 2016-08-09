@@ -2,7 +2,7 @@
 <center><div style="width: 75%; height: auto;"><img src="img/xebia.svg"/></div></center>
 
 !SLIDE
-## Docker Swarm - A complete Docker Container Platform
+### Docker Swarm - A complete Docker Container Platform
 <center>
 <p><img src="img/docker-logo-no-text.png" style="border: none; background: none; box-shadow: none;"/></p>
 </center>
@@ -10,16 +10,22 @@
     **Slides** - [http://xebia.github.io/workshop-docker-swarm](http://xebia.github.io/workshop-docker-swarm)
 </center>
 
-!SUB
-## Why? It Supports True DevOps!
-<center><div style="width: 75%; height: auto;"><img src="img/true-devops.jpg"/></div></center>
 
+!SUB
+### Docker Swarm - everything in the box!
+Docker Swarm has everything you need in a Docker Container Platform
+
+- Scheduler
+- Service Discovery
+- Network Load Balancing
+
+all in a single binary! 
 
 !SLIDE
 ## Docker Swarm Commands
-- Configuration
-- Services
-- Network
+- Configuration - docker swarm 
+- Services - docker service
+- Network - docker network
 
 !SUB
 ## Swarm configuration
@@ -77,6 +83,18 @@ Creating application specific networks.
 
 
 !SLIDE
+### outlook
+- Exploring paas-monitor locally
+- Exploring shellinabox locally
+- Vagrant setup
+- Initializing Swarm
+- Create the overlay network
+- Deploying services
+- Scaling services
+- Service Discovery
+- High Availability
+
+!SLIDE
 ### Local paas-monitor application
 
 <p style="font-size: 80%">
@@ -98,6 +116,29 @@ run the docker image mvanholsteijn/paas-monitor:latest, exposing its port 1337 a
 - eval $(docker-machine env dev)
 - docker run -d --publish :1337:1337 --env "RELEASE=v1" --env "MESSAGE=hello from docker machine." mvanholsteijn/paas-monitor:latest
 - open http:$(echo $DOCKER_HOST | cut -d: -f2):1337
+- docker stop $(docker ps -ql)
+
+!SLIDE
+### Local shellinabox application
+
+<p style="font-size: 80%">
+[shellinabox](https://github.com/mvanholsteijn/shellinabox-container) provides a shell with a web interface so you
+can safely snoop around on a machine. The environment variables 'SIAB_USER' and 'SIAB_PASSWORD' 
+allow you to set the username and password with which you can log in.  The environment variable 'SIAB_SSL'  controls
+encrytion by the shell.
+</p>
+<hr/>
+<p style="font-size: 80%">
+** Assignment : **
+run the docker image [mvanholsteijn/shellinabox:latest](https://github.com/mvanholsteijn/shellinabox-container) on your local machine and point your browser to it.
+disable SSL and specify a username and password. Login through the web interface and look around.
+</p>
+
+
+!NOTE
+- eval $(docker-machine env dev)
+- docker run -d --publish :4200:4200 -e SIAB_SSL=false -e SIAB_USER=guest -e SIAB_PASSWORD=password -e SIAB_SUDO=true mvanholsteijn/shellinabox:latest
+- open http:$(echo $DOCKER_HOST |cut -d: -f2):4200
 - docker stop $(docker ps -ql)
 
 !SLIDE
@@ -151,9 +192,10 @@ Add node-02 through node-04 as workers to your Swarm. When you are done, list th
 
 <p style="font-size: 75%">
 The 'docker network create' command allows you to create an overlay network for your application which spans the machines in the swarm.
+</p><hr/>
+<p style="font-size: 80%">
 ** Assignment: **
 create an overlay network named 'network1'.  When you are done, list all the available networks.
-</p><hr/><p style="font-size: 80%">
 <img src="img/swarm-network.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
 
@@ -164,26 +206,65 @@ create an overlay network named 'network1'.  When you are done, list all the ava
 !SLIDE
 ### Create the paas-monitor service
 <p style="font-size: 75%">
-The 'docker service create' command allows you to create services that are deployed on the Swarm. 'docker scale' allows you
-to scale the number of instances. The overlay network allows
+The 'docker service create' command allows you to create services that are deployed on the Swarm.  'docker service ps' shows 
+all running instances.
+
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
 Create the service paas-monitor for the docker application mvanholsteijn/paas-monitor:latest on the network 'network1'. Expose
-port 1337 as port 80. Start with 1 instance. Open the browser on http://172.17.8.101. Scale to 3 instances. What do you see? On which 
-nodes is the paas-monitor running? 
+port 1337 as port 80. Start with 1 instance. Open the browser on http://172.17.8.101. 
+one which node is the paas-monitor running? 
+
+<img size="50%" src="img/swarm-single.png" style="border: none; background: none; box-shadow: none;"/>
+</p>
+
+
+!NOTE
+- vagrant ssh node-01 -- docker service create --name paas-monitor --env RELEASE=v1 --replicas 1 --network network1 -p :80:1337/tcp  mvanholsteijn/paas-monitor:latest
+- open http://172.17.8.101
+- vagrant ssh node-01 -- docker service ps paas-monitor
+
+!SLIDE
+### Scaling the paas-monitor 
+<p style="font-size: 75%">
+The 'docker scale ' allows you to scale the number of services that are deployed on the Swarm.  
+
+</p><hr/><p style="font-size: 80%">
+** Assignment: **
+open your browser on http://172.17.8.101 and scale the paas-monitor to 3 instances. What is happening?
+one which nodes is the paas-monitor running now? 
+
+<img size="50%" src="img/swarm-scaled.png" style="border: none; background: none; box-shadow: none;"/>
+</p>
+
+
+!NOTE
+- vagrant ssh node-01 -- docker service create --name paas-monitor --env RELEASE=v1 --replicas 1 --network network1 -p :80:1337/tcp  mvanholsteijn/paas-monitor:latest
+- open http://172.17.8.101
+- vagrant ssh node-01 -- docker service ps paas-monitor
+
+!SLIDE
+### Service Discovery
+<p style="font-size: 75%">
+Swarm creates a virtual IP address for every deployed service so that the service can be reached independent of their physical location.
+</p><hr/><p style="font-size: 80%">
+** Assignment: **
+Create the service shellinabox for the docker application mvanholsteijn/shellinabox:latest on the network 'network1'. Expose
+port 4200 as port 4200. Login on http://172.17.8.101:4200. What is the ip address of the paas-monitor service? And for the shellinabox?
 
 <img size="50%" src="img/swarm-complete.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
 
 
 !NOTE
-- vagrant ssh node-01 -- docker service create --name paas-monitor --env RELEASE=v1 --replicas 1 --network paas-monitor -p :80:1337/tcp  mvanholsteijn/paas-monitor:latest
-- open http://172.17.8.101
-- vagrant ssh node-01 -- docker scale paas-monitor=3
-- vagrant ssh node-01 -- docker service ps paas-monitor
+- vagrant ssh node-01 -- docker service create --name shellinabox --network network1 -p :4200:4200 -e SIAB_SSL=false -e SIAB_USER=guest -e SIAB_PASSWORD=password -e SIAB_SUDO=true mvanholsteijn/shellinabox:latest
+- open http://172.17.8.101:4200
+- login with guest/password
+- dig +short paas-monitor
+- dig +short shellinabox
 
-!SUB
-### high availability
+!SLIDE
+### High Availability
 <p style="font-size: 75%">
 Swarm maintains the number of specified replicas of the application in the swarm. 
 </p><hr/><p style="font-size: 80%">
