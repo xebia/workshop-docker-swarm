@@ -18,11 +18,11 @@ Docker Swarm has everything you need in a Docker Container Platform
 - Service Discovery
 - Network Load Balancing
 
-all in a single binary! 
+all in a single binary!
 
 !SLIDE
 ## Docker Swarm Commands
-- Configuration - docker swarm 
+- Configuration - docker swarm
 - Services - docker service
 - Network - docker network
 
@@ -70,7 +70,7 @@ Creating application specific networks.
 <center>![Docker Swarm Cluster](img/hands-on-setup.png)</center>
 
 !SLIDE
-### Hands-on 
+### Hands-on
 - generic instruction, try to solve it yourself
 - are you stuck? press 's' and check the presenter notes for typing instructions
 
@@ -123,7 +123,7 @@ run the docker image mvanholsteijn/paas-monitor:latest, exposing its port 1337 a
 
 <p style="font-size: 80%">
 [shellinabox](https://github.com/mvanholsteijn/shellinabox-container) provides a shell with a web interface so you
-can safely snoop around on a machine. The environment variables 'SIAB_USER' and 'SIAB_PASSWORD' 
+can safely snoop around on a machine. The environment variables 'SIAB_USER' and 'SIAB_PASSWORD'
 allow you to set the username and password with which you can log in.  The environment variable 'SIAB_SSL'  controls
 encrytion by the shell.
 </p>
@@ -148,7 +148,7 @@ disable SSL and specify a username and password. Login through the web interface
 We created a vagrant setup consisting of 4 Ubuntu 16.04 LTS virtual machines on VirtualBox.
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
-<p>Startup the vagrant configuration from https://github.com/xebia/workshop-docker-swarm.git in the directory 'vagrant'
+Startup the vagrant configuration from https://github.com/xebia/workshop-docker-swarm.git in the directory 'vagrant'
 <img src="img/vagrant-setup.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
 
@@ -159,12 +159,13 @@ We created a vagrant setup consisting of 4 Ubuntu 16.04 LTS virtual machines on 
 
 
 !SLIDE
-### Initialize the swarm 
+### Initialize the swarm
 <p style="font-size: 80%">
 The 'docker swarm init' allows you to initialize a cluster and create your first manager.
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
 Login to node-01, initialize your swarm and start node-01 as a swarm manager.
+
 <img src="img/swarm-manager-only.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
 
@@ -208,14 +209,14 @@ create an overlay network named 'network1'.  When you are done, list all the ava
 !SLIDE
 ### Create the paas-monitor service
 <p style="font-size: 80%">
-The 'docker service create' command allows you to create services that are deployed on the Swarm.  'docker service ps' shows 
+The 'docker service create' command allows you to create services that are deployed on the Swarm.  'docker service ps' shows
 all running instances.
 
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
 Create the service paas-monitor for the docker application mvanholsteijn/paas-monitor:latest on the network 'network1'. Expose
-port 1337 as port 80. Start with 1 instance. Open the browser on http://172.17.8.101. 
-one which node is the paas-monitor running? 
+port 1337 as port 80. Start with 1 instance. Open the browser on http://172.17.8.101.
+one which node is the paas-monitor running?
 
 <img size="50%" src="img/swarm-single-paas-monitor.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
@@ -227,14 +228,14 @@ one which node is the paas-monitor running?
 - vagrant ssh node-01 -- docker service ps paas-monitor
 
 !SLIDE
-### Scaling the paas-monitor 
+### Scaling the paas-monitor
 <p style="font-size: 80%">
 The 'docker service scale' allows you to scale the number of services that are deployed on the Swarm.  
 
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
 open your browser on http://172.17.8.101 and scale the paas-monitor to 3 instances. What is happening?
-one which nodes is the paas-monitor running now? 
+one which nodes is the paas-monitor running now?
 
 <img size="50%" src="img/swarm-paas-monitor-scaled.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
@@ -286,10 +287,10 @@ port 4200 as port 4200. Login on http://172.17.8.101:4200. What is the ip addres
 !SLIDE
 ### High Availability
 <p style="font-size: 80%">
-Swarm maintains the number of specified replicas of the application in the swarm. 
+Swarm maintains the number of specified replicas of the application in the swarm.
 </p><hr/><p style="font-size: 80%">
 ** Assignment: **
-Stop one of the paas-monitor instances. What do you see happen? 
+Stop one of the paas-monitor instances. What do you see happen?
 
 <img size="50%" src="img/swarm-high-availability.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
