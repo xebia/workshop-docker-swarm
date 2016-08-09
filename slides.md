@@ -144,15 +144,17 @@ disable SSL and specify a username and password. Login through the web interface
 !SLIDE
 ## Getting Started
 
-<p>We created a vagrant setup consisting of 4 Ubuntu 16.04 LTS virtual machines on VirtualBox on 
-https://github.com/xebia/workshop-docker-swarm.git in the directory 'development-environment'
-
+<p style="font-size: 80%">
+We created a vagrant setup consisting of 4 Ubuntu 16.04 LTS virtual machines on VirtualBox.
+</p><hr/><p style="font-size: 80%">
+** Assignment: **
+<p>Startup the vagrant configuration from https://github.com/xebia/workshop-docker-swarm.git in the directory 'vagrant'
 <img src="img/vagrant-setup.png" style="border: none; background: none; box-shadow: none;"/>
 </p>
 
 !NOTE
 - git clone https://github.com/xebia/workshop-docker-swarm.git
-- cd workshop-docker-swarm/development-environment
+- cd workshop-docker-swarm/vagrant
 - vagrant up
 
 
