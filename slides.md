@@ -303,4 +303,20 @@ Stop one of the paas-monitor instances. What do you see happen?
 - vagrant ssh node-01 -- docker service ps paas-monitor
 
 !SLIDE
+### High Availability - Machine failure
+<p style="font-size: 80%">
+Swarm can survive loss of workers 
+</p><hr/><p style="font-size: 80%">
+** Assignment: **
+Stop one of the worker machines while monitoring the paas-monitor. Try to pick one of the machines running an instance of the paas-monitor. What do you see happen?
+
+<img size="50%" src="img/swarm-machine-failure.png" style="border: none; background: none; box-shadow: none;"/>
+</p>
+
+
+!NOTE
+- open http://172.17.8.101
+- vagrant ssh node-04 -- sudo shutdown -h now
+
+!SLIDE
 <center><div style="width: 80%; height: auto;"><img src="img/xebia.svg"/></div></center>
