@@ -1,0 +1,26 @@
+#
+#
+function getVirtualBoxMappedPort() {
+        VBoxManage showvminfo $(cat ./.vagrant/machines/core-01/virtualbox/id)  | \
+			grep "guest port = $1\$" | \
+			sed -e 's/.*host port = //' -e 's/, guest.*//'
+}
+
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+	eval $(ssh-agent)
+fi
+
+if expr  "$(uname -s)" : 'CYGWIN.*' > /dev/null; then
+	ssh-add $(cygpath -u "$USERPROFILE")/.vagrant.d/insecure_private_key
+else
+	ssh-add $HOME/.vagrant.d/insecure_private_key
+fi
+
+export DOCKER_HOST=tcp://127.0.0.1:$(getVirtualBoxMappedPort 2375)
+export HTTP_ROUTER=http://127.0.0.1.xip.io:$(getVirtualBoxMappedPort 80)
+export FLEETCTL_TUNNEL=127.0.0.1:$(getVirtualBoxMappedPort 22)
+unset DOCKER_TLS_VERIFY
+
+echo DOCKER_HOST=$DOCKER_HOST
+echo HTTP_ROUTER=$HTTP_ROUTER
+echo FLEETCTL_TUNNEL=$FLEETCTL_TUNNEL
